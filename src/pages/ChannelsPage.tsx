@@ -2,144 +2,115 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Users, Gamepad2, Trophy, SoccerBall, Music, Video, Heart } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
+import { 
+  GamepadIcon, 
+  Trophy, 
+  Music, 
+  Film, 
+  BookOpen, 
+  Bike,  // Заменил Football на Bike
+  Github, 
+  Code 
+} from "lucide-react";
 
 const ChannelsPage = () => {
   return (
     <div className="container mx-auto py-6 space-y-6">
       <header className="mb-8">
-        <h1 className="text-3xl font-bold mb-2">Каналы</h1>
-        <p className="text-muted-foreground">Присоединяйтесь к тематическим каналам и общайтесь с единомышленниками</p>
+        <h1 className="text-3xl font-bold mb-2">Тематические каналы</h1>
+        <p className="text-muted-foreground">Выберите интересующую категорию и присоединяйтесь к сообществам единомышленников</p>
       </header>
       
       <Tabs defaultValue="games" className="w-full">
         <TabsList className="w-full justify-start mb-6 overflow-x-auto">
-          <TabsTrigger value="games" className="flex items-center gap-2">
-            <Gamepad2 className="w-4 h-4" />
-            <span>Игры</span>
-          </TabsTrigger>
-          <TabsTrigger value="esports" className="flex items-center gap-2">
-            <Trophy className="w-4 h-4" />
-            <span>Киберспорт</span>
-          </TabsTrigger>
-          <TabsTrigger value="sports" className="flex items-center gap-2">
-            <SoccerBall className="w-4 h-4" />
-            <span>Спорт</span>
-          </TabsTrigger>
-          <TabsTrigger value="music" className="flex items-center gap-2">
-            <Music className="w-4 h-4" />
-            <span>Музыка</span>
-          </TabsTrigger>
-          <TabsTrigger value="video" className="flex items-center gap-2">
-            <Video className="w-4 h-4" />
-            <span>Видео и стримы</span>
-          </TabsTrigger>
+          <TabsTrigger value="games">Игры</TabsTrigger>
+          <TabsTrigger value="sport">Спорт</TabsTrigger>
+          <TabsTrigger value="entertainment">Развлечения</TabsTrigger>
+          <TabsTrigger value="education">Образование</TabsTrigger>
+          <TabsTrigger value="technology">Технологии</TabsTrigger>
         </TabsList>
         
         <TabsContent value="games" className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {gamesChannels.map((channel) => (
-              <ChannelCard key={channel.id} channel={channel} />
+            {gameChannels.map((channel) => (
+              <ChannelCard key={channel.id} channel={channel} icon={<GamepadIcon className="w-5 h-5" />} />
             ))}
           </div>
         </TabsContent>
         
-        <TabsContent value="esports" className="space-y-6">
+        <TabsContent value="sport" className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {esportsChannels.map((channel) => (
-              <ChannelCard key={channel.id} channel={channel} />
+            {sportChannels.map((channel) => (
+              <ChannelCard key={channel.id} channel={channel} icon={<Bike className="w-5 h-5" />} />
             ))}
           </div>
         </TabsContent>
         
-        <TabsContent value="sports" className="space-y-6">
+        <TabsContent value="entertainment" className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {sportsChannels.map((channel) => (
-              <ChannelCard key={channel.id} channel={channel} />
+            {entertainmentChannels.map((channel) => (
+              <ChannelCard key={channel.id} channel={channel} icon={<Film className="w-5 h-5" />} />
             ))}
           </div>
         </TabsContent>
         
-        <TabsContent value="music" className="space-y-6">
+        <TabsContent value="education" className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {musicChannels.map((channel) => (
-              <ChannelCard key={channel.id} channel={channel} />
+            {educationChannels.map((channel) => (
+              <ChannelCard key={channel.id} channel={channel} icon={<BookOpen className="w-5 h-5" />} />
             ))}
           </div>
         </TabsContent>
         
-        <TabsContent value="video" className="space-y-6">
+        <TabsContent value="technology" className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {videoChannels.map((channel) => (
-              <ChannelCard key={channel.id} channel={channel} />
+            {technologyChannels.map((channel) => (
+              <ChannelCard key={channel.id} channel={channel} icon={<Code className="w-5 h-5" />} />
             ))}
           </div>
         </TabsContent>
       </Tabs>
-      
-      <div className="bg-gradient-to-r from-purple-50 to-blue-50 dark:from-purple-950/50 dark:to-blue-950/50 p-6 rounded-lg mt-12">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-          <div>
-            <h2 className="text-2xl font-bold mb-2">Создайте свой канал</h2>
-            <p className="text-muted-foreground max-w-lg">
-              Хотите обсудить то, что интересно именно вам? Создайте собственный канал и пригласите друзей!
-            </p>
-          </div>
-          <Button size="lg" className="min-w-[150px]">Создать канал</Button>
-        </div>
-      </div>
     </div>
   );
 };
 
 interface Channel {
   id: number;
-  name: string;
+  title: string;
   description: string;
   members: number;
-  category: string;
   imageUrl: string;
-  isPopular?: boolean;
-  isNew?: boolean;
 }
 
-const ChannelCard = ({ channel }: { channel: Channel }) => {
+interface ChannelCardProps {
+  channel: Channel;
+  icon: React.ReactNode;
+}
+
+const ChannelCard = ({ channel, icon }: ChannelCardProps) => {
   return (
     <Card className="overflow-hidden hover:shadow-md transition-shadow">
-      <div className="h-32 bg-gradient-to-r from-purple-400 to-blue-500 relative flex items-center justify-center">
+      <div className="aspect-[16/9] bg-purple-100 dark:bg-purple-950 flex items-center justify-center">
         <img 
           src={channel.imageUrl || "/placeholder.svg"} 
-          alt={channel.name} 
-          className="w-full h-full object-cover opacity-80"
+          alt={channel.title} 
+          className="w-full h-full object-cover"
           onError={(e) => {
             (e.target as HTMLImageElement).src = "/placeholder.svg";
           }}
         />
-        {channel.isPopular && (
-          <Badge className="absolute top-3 right-3 bg-orange-500 hover:bg-orange-600">
-            <Heart className="w-3 h-3 mr-1" />
-            Популярный
-          </Badge>
-        )}
-        {channel.isNew && (
-          <Badge className="absolute top-3 right-3 bg-green-500 hover:bg-green-600">
-            Новый
-          </Badge>
-        )}
       </div>
       <CardHeader>
-        <CardTitle className="flex justify-between items-center">
-          <span>{channel.name}</span>
-          <Badge variant="outline">{channel.category}</Badge>
-        </CardTitle>
+        <div className="flex items-center gap-2">
+          <div className="bg-purple-100 dark:bg-purple-900 p-2 rounded-full">
+            {icon}
+          </div>
+          <CardTitle>{channel.title}</CardTitle>
+        </div>
         <CardDescription>{channel.description}</CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="flex items-center text-sm">
-          <Users className="w-4 h-4 mr-2 text-purple-600" />
-          <span>{channel.members.toLocaleString()} участников</span>
-        </div>
+        <p className="text-sm text-muted-foreground">{channel.members} участников</p>
       </CardContent>
       <CardFooter>
         <Button variant="default" className="w-full">Присоединиться</Button>
@@ -148,165 +119,122 @@ const ChannelCard = ({ channel }: { channel: Channel }) => {
   );
 };
 
-const gamesChannels: Channel[] = [
+const gameChannels: Channel[] = [
   {
-    id: 101,
-    name: "Dota 2 Сообщество",
-    description: "Канал для любителей Dota 2",
-    members: 15423,
-    category: "MOBA",
-    imageUrl: "/placeholder.svg",
-    isPopular: true
-  },
-  {
-    id: 102,
-    name: "CS2 Стратегии",
-    description: "Тактики, стратегии и советы для Counter-Strike 2",
-    members: 12754,
-    category: "FPS",
+    id: 1,
+    title: "Dota 2 Россия",
+    description: "Крупнейшее сообщество по Dota 2",
+    members: 25600,
     imageUrl: "/placeholder.svg"
   },
   {
-    id: 103,
-    name: "Minecraft Строители",
-    description: "Обсуждение строительства и выживания в Minecraft",
-    members: 8932,
-    category: "Песочница",
+    id: 2,
+    title: "CS2 Стратегии",
+    description: "Тактики, стратегии и советы по игре",
+    members: 12300,
     imageUrl: "/placeholder.svg"
   },
   {
-    id: 104,
-    name: "League of Legends",
-    description: "Всё о LoL: герои, тактики, турниры",
-    members: 10289,
-    category: "MOBA",
-    imageUrl: "/placeholder.svg"
-  },
-  {
-    id: 105,
-    name: "Valorant тактики",
-    description: "Обсуждение агентов, карт и стратегий в Valorant",
-    members: 6845,
-    category: "FPS",
-    imageUrl: "/placeholder.svg"
-  },
-  {
-    id: 106,
-    name: "Fortnite Squad",
-    description: "Ищем команду для игры в Fortnite",
-    members: 7632,
-    category: "Battle Royale",
+    id: 3,
+    title: "Minecraft Строители",
+    description: "Креативное сообщество строителей",
+    members: 8700,
     imageUrl: "/placeholder.svg"
   }
 ];
 
-const esportsChannels: Channel[] = [
+const sportChannels: Channel[] = [
   {
-    id: 201,
-    name: "The International",
-    description: "Обсуждение главного турнира года по Dota 2",
-    members: 11235,
-    category: "Dota 2",
-    imageUrl: "/placeholder.svg",
-    isPopular: true
-  },
-  {
-    id: 202,
-    name: "CS2 Major",
-    description: "Трансляции и обсуждения мейджор-турниров CS2",
-    members: 9876,
-    category: "Counter-Strike 2",
+    id: 4,
+    title: "Футбол 24/7",
+    description: "Обсуждение футбольных матчей и новостей",
+    members: 15400,
     imageUrl: "/placeholder.svg"
   },
   {
-    id: 203,
-    name: "LoL Worlds",
-    description: "Всё о чемпионате мира по League of Legends",
-    members: 8521,
-    category: "League of Legends",
+    id: 5,
+    title: "NBA фанаты",
+    description: "Всё о баскетболе и NBA",
+    members: 7800,
+    imageUrl: "/placeholder.svg"
+  },
+  {
+    id: 6,
+    title: "Боевые искусства",
+    description: "Сообщество любителей единоборств",
+    members: 5600,
     imageUrl: "/placeholder.svg"
   }
 ];
 
-const sportsChannels: Channel[] = [
+const entertainmentChannels: Channel[] = [
   {
-    id: 301,
-    name: "Футбол",
-    description: "Обсуждение матчей, трансферов и футбольных новостей",
-    members: 9145,
-    category: "Спорт",
+    id: 7,
+    title: "Кино и сериалы",
+    description: "Обсуждение премьер и классики",
+    members: 18900,
     imageUrl: "/placeholder.svg"
   },
   {
-    id: 302,
-    name: "Баскетбол NBA",
-    description: "Фанатский канал NBA",
-    members: 7523,
-    category: "Спорт",
+    id: 8,
+    title: "Музыкальные новинки",
+    description: "Новые релизы и музыкальные тренды",
+    members: 14200,
     imageUrl: "/placeholder.svg"
   },
   {
-    id: 303,
-    name: "Хоккей",
-    description: "КХЛ, НХЛ и международные турниры",
-    members: 5842,
-    category: "Спорт",
+    id: 9,
+    title: "Аниме клуб",
+    description: "Для любителей японской анимации",
+    members: 11500,
     imageUrl: "/placeholder.svg"
   }
 ];
 
-const musicChannels: Channel[] = [
+const educationChannels: Channel[] = [
   {
-    id: 401,
-    name: "Рок музыка",
-    description: "Для любителей рок-музыки всех направлений",
-    members: 6328,
-    category: "Музыка",
+    id: 10,
+    title: "Изучаем английский",
+    description: "Разговорная практика и обучение",
+    members: 9800,
     imageUrl: "/placeholder.svg"
   },
   {
-    id: 402,
-    name: "Электронная музыка",
-    description: "EDM, house, techno и другие направления",
-    members: 7842,
-    category: "Музыка",
+    id: 11,
+    title: "История цивилизаций",
+    description: "Для любителей истории и археологии",
+    members: 7200,
     imageUrl: "/placeholder.svg"
   },
   {
-    id: 403,
-    name: "Музыкальные новинки",
-    description: "Обсуждение новых релизов и музыкальных трендов",
-    members: 4523,
-    category: "Музыка",
-    imageUrl: "/placeholder.svg",
-    isNew: true
+    id: 12,
+    title: "Научпоп",
+    description: "Научно-популярные темы и открытия",
+    members: 8500,
+    imageUrl: "/placeholder.svg"
   }
 ];
 
-const videoChannels: Channel[] = [
+const technologyChannels: Channel[] = [
   {
-    id: 501,
-    name: "Стримеры",
-    description: "Обсуждение популярных стримеров и их контента",
-    members: 8423,
-    category: "Стриминг",
-    imageUrl: "/placeholder.svg",
-    isPopular: true
-  },
-  {
-    id: 502,
-    name: "YouTube новинки",
-    description: "Делимся интересными видео и каналами",
-    members: 7125,
-    category: "Видео",
+    id: 13,
+    title: "Frontend разработка",
+    description: "React, Vue, Angular и другие фреймворки",
+    members: 12700,
     imageUrl: "/placeholder.svg"
   },
   {
-    id: 503,
-    name: "Киноманы",
-    description: "Обсуждение фильмов, сериалов и кинопремьер",
-    members: 9245,
-    category: "Кино",
+    id: 14,
+    title: "Machine Learning",
+    description: "Искусственный интеллект и машинное обучение",
+    members: 9300,
+    imageUrl: "/placeholder.svg"
+  },
+  {
+    id: 15,
+    title: "Киберзащита",
+    description: "Безопасность и защита информации",
+    members: 6800,
     imageUrl: "/placeholder.svg"
   }
 ];
